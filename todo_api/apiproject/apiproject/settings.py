@@ -105,6 +105,21 @@ DATABASES = {
     }
 }
 
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'APP': {
+            'client_id': '1009999189038-5c25h046kfukmlem72c894uv2bhaskff.apps.googleusercontent.com',
+            'secret': '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',
+        }
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
