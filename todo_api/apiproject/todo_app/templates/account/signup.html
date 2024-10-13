@@ -1,4 +1,5 @@
-{% load static %}
+{% load static %} {% load socialaccount %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -75,6 +76,29 @@
         <button type="submit" class="btn btn-primary w-100">Register</button>
       </form>
 
+      <div class="my-3 text-center">
+        <p>or sign up using</p>
+        <a
+          href="{% provider_login_url 'google' %}"
+          class="btn btn-outline-danger w-100 mb-2"
+        >
+          <i class="fa fa-google"></i> Sign up with Google
+        </a>
+        {% comment %}
+        <a
+          href="{% provider_login_url 'facebook' %}"
+          class="btn btn-outline-primary w-100 mb-2"
+        >
+          <i class="fa fa-facebook"></i> Sign up with Facebook
+        </a>
+        <a
+          href="{% provider_login_url 'github' %}"
+          class="btn btn-outline-dark w-100"
+        >
+          <i class="fa fa-github"></i> Sign up with GitHub
+        </a>
+        {% endcomment %}
+      </div>
       <div class="my-3 text-center text-secondary">
         <a href="{% url 'account_login' %}">Already have an account?</a>
       </div>
