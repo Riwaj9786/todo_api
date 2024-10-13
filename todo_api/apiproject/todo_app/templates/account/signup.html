@@ -91,13 +91,13 @@
         >
           <i class="fa fa-facebook"></i> Sign up with Facebook
         </a>
+        {% endcomment %}
         <a
           href="{% provider_login_url 'github' %}"
           class="btn btn-outline-dark w-100"
         >
           <i class="fa fa-github"></i> Sign up with GitHub
         </a>
-        {% endcomment %}
       </div>
       <div class="my-3 text-center text-secondary">
         <a href="{% url 'account_login' %}">Already have an account?</a>
