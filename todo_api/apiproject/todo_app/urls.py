@@ -1,5 +1,9 @@
 from django.urls import path
-from todo_app.views import TodoListAPIView, TodoListUpdate, TodoStatusUpdate
+from todo_app.views import(
+                            TodoListAPIView, 
+                           TodoListUpdate, 
+                           TodoStatusUpdate
+                           )
 
 app_name = 'todo_app'
 

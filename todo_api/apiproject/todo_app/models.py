@@ -18,7 +18,7 @@ class TodoList(models.Model):
     description = models.TextField(max_length=200, null=True, blank=True)
     deadline = models.DateTimeField(default=get_deadline, null=True, blank=True)
     status = models.CharField(max_length=10, choices=Status_Choices)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='todo_user')
 
     def save(self, *args, **kwargs):
