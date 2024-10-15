@@ -25,7 +25,7 @@ from todo_app.views import LogoutView
 
 urlpatterns = [
     path('todo/', include('todo_app.urls')),
-    path('admin/', admin.site.urls),
+    path('dashboard/', admin.site.urls),
     path('accounts/', include("allauth.urls")),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

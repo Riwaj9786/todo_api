@@ -1,16 +1,12 @@
 from django.urls import path
-from todo_app.views import(
-                            TodoListAPIView, 
-                           TodoListUpdate, 
-                           TodoStatusUpdate
-                           )
+from todo_app import views
 
 app_name = 'todo_app'
 
 urlpatterns = [
-    path("", TodoListAPIView.as_view(), name="todo-list"),
-    path('<pk>/', TodoListUpdate.as_view(), name="todo_update"),
+    path("", views.TodoListAPIView.as_view(), name="todo-list"),
+    path('<pk>/', views.TodoListUpdate.as_view(), name="todo_update"),
 
     # Endpoint to change the status of the todo_item
-    path('<pk>/status/', TodoStatusUpdate.as_view(), name="status_update"),
+    path('<pk>/status/', views.TodoStatusUpdate.as_view(), name="status_update"),
 ]
