@@ -10,7 +10,7 @@ from rest_framework import generics
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 from todo_app.pagination import TodoListPagination, TodoLOPagination, TodoCursorPagination
-
+from rest_framework.permissions import IsAuthenticated
 
 class TodoListAPIView(generics.ListCreateAPIView):
     serializer_class = TodoListSerializers
@@ -125,3 +125,10 @@ class TodoStatusUpdate(APIView):
 
         serializer = TodoListSerializers(todo_item)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        return Response({"message": "Successfully logged out."}, status=status.HTTP_200_OK)
