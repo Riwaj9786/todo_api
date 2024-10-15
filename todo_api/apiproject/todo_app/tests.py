@@ -3,6 +3,8 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework.authtoken.models import Token
+from todo_app import serializers
+from todo_app import models
 
 class RegisterTestCase(APITestCase):
 
@@ -45,13 +47,57 @@ class LoginLogoutTestCase(APITestCase):
         login_response = self.client.post(reverse('token_obtain_pair'), data)
         self.assertEqual(login_response.status_code, status.HTTP_200_OK)
         
-        # Extract the access token
+        # Extract the access and refresh token
         access_token = login_response.data['access']
-        
-        # Add Authorization header with JWT token for logout request
+        refresh_token = login_response.data['refresh']
+
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + access_token)
         
-        # Assuming there's a logout endpoint defined (e.g., at 'account_logout')
-        response = self.client.post(reverse('account_logout'))
+        # Log out using the refresh token
+        logout_data = {
+            "refresh_token": refresh_token
+        }
+        response = self.client.post(reverse('account_logout'), logout_data)
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+
+class TodoTestCase(APITestCase):
+
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="example",
+            password="NewPassword@123",
+            is_active = True
+        )
+
+        data = {
+            "username": "example",
+            "password": "NewPassword@123"
+        }
+        login_response = self.client.post(reverse('token_obtain_pair'), data)
+        print(login_response.data)
+
+        access_token = login_response.data['access']
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + access_token)
+
+        self.todolist = models.TodoList.objects.create(
+            title="Test Case Init",
+            description="Suppose I have described about the initial test case.",
+            status="To Do"
+        )
+
+    
+    def test_todolist_create(self):
+        data = {
+            "title": "Test Case",
+            "description": "Suppose I have described about the test case.",
+            "status": "To Do"
+        }
+        response = self.client.post(reverse('todo_app:todo-list'), data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+
+    def test_todolist_list(self):
+        response = self.client.get(reverse('todo_app:todo-list'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
