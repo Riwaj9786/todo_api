@@ -11,6 +11,7 @@ from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 from todo_app.pagination import TodoListPagination, TodoLOPagination, TodoCursorPagination
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
 
 class TodoListAPIView(generics.ListCreateAPIView):
     serializer_class = TodoListSerializers
@@ -131,4 +132,11 @@ class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        return Response({"message": "Successfully logged out."}, status=status.HTTP_200_OK)
+        try:
+            # Blacklist the refresh token
+            refresh_token = request.data["refresh_token"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response({"message": "Successfully logged out."}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)

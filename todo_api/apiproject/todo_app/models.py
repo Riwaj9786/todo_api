@@ -29,7 +29,7 @@ class TodoList(models.Model):
     
 
     def generate_id(self):
-        last_todo = TodoList.objects.order_by('created_at').last()
+        last_todo = TodoList.objects.order_by('created').last()
 
         if last_todo:
             last_id = int(last_todo.id.split('_')[1])
